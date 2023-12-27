@@ -1,3 +1,5 @@
+
+import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import './globals.css'
 import Nav from './components/Nav'
@@ -15,12 +17,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen ">
-        <Nav />
-        <div className='flex justify-center items-center p-24'>
-          {children}
-        </div>
-      </body>
+      <ClerkProvider>
+        <body className="min-h-screen ">
+          <Nav />
+          <div className='flex justify-center items-center p-24'>
+            {children}
+          </div>
+        </body>
+      </ClerkProvider>
     </html>
   )
 }
