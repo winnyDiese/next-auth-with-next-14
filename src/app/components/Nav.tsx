@@ -1,7 +1,11 @@
+"use client"
+import { UserButton, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import React from 'react'
 
 export default function Nav() {
+    const { user, isLoaded } = useUser()
+
   return (
     <div>
       <header>
@@ -15,7 +19,12 @@ export default function Nav() {
                 </a>
             </div>
 
-            <Link href="/dashboard">Dashborad</Link>
+            { isLoaded && user && (
+                <>
+                    <Link href="/dashboard">Dashborad</Link>
+                    <UserButton afterSignOutUrl='/' />
+                </>
+            )}
 
         </nav>
       </header>
