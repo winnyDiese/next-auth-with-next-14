@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Pascal-Abedi-Lopez-s-workspace-v000p9.us-east-1.xata.sh/db/test-auth",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}

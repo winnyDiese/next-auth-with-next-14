@@ -1,0 +1,13 @@
+<!-- 
+npm install @xata.io/cli -g
+
+xata init --db https://Pascal-Abedi-Lopez-s-workspace-v000p9.us-east-1.xata.sh/db/test-auth
+
+
+// Generated with CLI
+import { getXataClient } from "./xata";
+const xata = getXataClient();
+
+const record = await xata.db.tableName.read("rec_xyz");
+console.log(record);
+ -->
