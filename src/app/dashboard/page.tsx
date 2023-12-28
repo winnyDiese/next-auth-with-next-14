@@ -3,14 +3,22 @@ import React from 'react';
 import FormFolder from './FormFolder';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import { auth } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
 
 const schema = z.object({
     name: z.string().min(5)   
 })
 
 export default async function DashboardPage() {
+    const {userId} = auth()
     const xataClient = getXataClient()
-    const folders = await xataClient.db.folders.getMany()
+
+    if(!userId) redirect('/')
+
+    const folders = await xataClient.db.folders.filter({
+        userId
+    }).getMany()
 
     
     async function createForm(formData: FormData){
@@ -19,8 +27,11 @@ export default async function DashboardPage() {
             name: formData.get('name') 
         })
 
+        const newRecord = {...parsedForm, userId}
+        if(!userId) return
+
         const xataClient = getXataClient()
-        await xataClient.db.folders.create(parsedForm)
+        await xataClient.db.folders.create(newRecord)
         revalidatePath('/')
     }
 
