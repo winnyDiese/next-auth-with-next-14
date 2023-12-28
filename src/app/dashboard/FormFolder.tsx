@@ -1,15 +1,21 @@
 import { getXataClient } from '@/xata'
+import { z } from 'zod'
 import React from 'react'
+
+const schema = z.object({
+    name: z.string().min(5)   
+})
 
 export default function FormFolder() {
 
     async function createForm(formData: FormData){
         'use server'
-        const name = formData.get('name')
+        const parseForm = schema.parse({
+            name: formData.get('name') 
+        })
 
-        if(!name) return
         const xataClient = getXataClient()
-        xataClient.db.folders.create({name})
+        await xataClient.db.folders.create(parseForm)
     }
 
   return (
