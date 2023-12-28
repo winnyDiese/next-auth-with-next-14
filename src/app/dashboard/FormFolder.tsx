@@ -1,6 +1,8 @@
+
 import { getXataClient } from '@/xata'
 import { z } from 'zod'
 import React from 'react'
+import { revalidatePath } from 'next/cache'
 
 const schema = z.object({
     name: z.string().min(5)   
@@ -10,12 +12,13 @@ export default function FormFolder() {
 
     async function createForm(formData: FormData){
         'use server'
-        const parseForm = schema.parse({
+        const parsedForm = schema.parse({
             name: formData.get('name') 
         })
 
         const xataClient = getXataClient()
-        await xataClient.db.folders.create(parseForm)
+        await xataClient.db.folders.create(parsedForm)
+        revalidatePath('/')
     }
 
   return (
